@@ -2,6 +2,9 @@
 
 December 2014
 
+---
+<a href="#/conclusions">Conclusions and Action Items</a>
+
 
 
 ## Background
@@ -291,4 +294,14 @@ Needed Infrastructure Improvements:
 
 
 
+<section id="conclusions">
 
+## Conclusions, Action Items
+
+- VMs will use empty apicomm instance, no importing data from production
+  - need creation script
+- All schema names needed to support the website will be registered in core.databaseinfo
+  - e.g. tuningManager needs to be patched to do this
+- infrastructure will not support runtime flags to aid preventing conflicts between tuningManager and export scripts.
+  - blocking tuningManager will have to be done in Jenkins.
+  - alternatively, follow up with John I. about using existing current_updater from apidb.instancemetainfo.
