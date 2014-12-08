@@ -4,43 +4,67 @@ December 2014
 
 
 
-## Goal
+## Background
 
-  - All development, architecture made with VM in mind
-    - Recent SIG on authentication ... authN service ... how will that be supported on VMs without network
+  - EuPathDB hosts websites accessible over the public internet.
+  - Hosted on physical servers in data centers in Athens, Philadelphia.
+  - Operating system, Apache webserver, Tomcat application server, Oracle databases
+
+Note:
+We host public websites on server hardware in datacenters in Athens, Philadelphia.
+Websites are backed by two Oracle databases, also hosted in our datacenter.
+We can also package a website and databases on to a virtual machine that includes
+everything
 
 
 
-## What is a virtual machine
+  - We can also bundle everything into a single, standalone virtual machine
+
+
+
+## Why VMs?
+
+  - Carry to conferences, workshops where internet connectivity is poor
+  - Archive previous releases
+  - _Host at institutions where internet connectivity is poor._
+
+
+
+## SIG Goals
+
+  - Give overview of the labor costs of generating VMs
+  - Discuss how to reduce those costs
+  - Highlight concerns: security, user support, legal
+
+
+
+## Questions
+
+  - Why does it take a week to make a VM?
+  - Can it be done in less time?
+  - Why isn't the process automated?
+  - This VM is broken. Why didn't you test it better?
+
+
+
+## Creating A VM
 
 
 
 ## Leveraged Technologies 
 
-<span style="color:blue; font-size:75%">( 0-5 maturity)[+ core infra, - VM specific]</span>
+<span style="color:blue; font-size:75%">( 0-5 maturity)[+ core infra, - saVM specific]</span>
 
-  - KVM                                         <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[-]</span>
+  - KVM                                         <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
   - dedicated laptop and custom UI              <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3)[-]</span>
-  - VMware                                      <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(4)[-]</span>
   - Puppet                                      <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
-  - standardized directory naming conventions   <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
   - self-configuring Apache hosts               <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
   - Tomcat Instance Manager                     <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
     - <span class='small-bullet-link'>[https://github.com/EuPathDB/tomcat-instance-framework](https://github.com/EuPathDB/tomcat-instance-framework)</span>
-<!-- - scripted website framework installation   -->
-
-Note: 
-Puppet low maturity because it needs refinement to ensure minimal installation (no leakage of sensitive internals)
-
-
-
-## Leveraged Technologies
-
-  - GUS build <span style="color:blue; font-size:75%">(5)[+]</span>
+  - GUS build <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
   - rebuilder <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
   - configula - automated WDK configuration <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3)[+]</span>
   - /dashboard <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
-  - Oracle network import <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(2)[-/+]</span>
 
 Note:
 - VMs are mostly an extension of core infrastructure - just another server
@@ -49,19 +73,124 @@ Note:
 
 
 
+## VM Contruction Overview
+
+
+
+VM Contruction Overview
+
+## Create VM template
+
+  - Kickstart bootstrap
+  - Puppet deployment of core software, configuration
+  - manual QA, tweaks
+
+
+
+VM Contruction Overview
+
+## New VM from Template
+
+  - update OS patches
+  - update from latest Puppet manifests
+  - configure network
+  - resize disks
+
+
+
+VM Contruction Overview
+
+## Clone Databases
+
+  - export production database to a file
+  - on VM: NFS mount the production export directory
+  - create database
+  - import the export file
+  - repeat for apicomm
+
+
+VM Contruction Overview
+
+## Install Website
+
+  - checkout source code
+  - build
+
+
+
+VM Contruction Overview
+
+## Install webService files
+  
+  - 400 GB
+  - exclude BAM files
+  - 15 GB
+
+
+
+VM Contruction Overview
+
+## Run tuningManager
+
+  - additional software install
+  - additional configuration
+  - additional complexity
+  - additional point of failure
+  - additional time
+
+
+
+## QA the website
+
+
+
+## Pitfalls of manual assembly
+
+  - labor intensive
+  - disruptive to other project tasks
+  - long lead time required
+  - 3-6 months between assemblies
+    - what is now broken, out of date?
+
+
+
+## Pipeline the process
+
+
+
+## Offprint
+
+  - https://github.com/EuPathDB/offprint
+  - `offprint w1.toxodb.org`
+  - /dashboard API
+    - source code versions
+    - databases to clone
+    - WDK configuration
+  - import directly from live production DB
+    - no tuningManager
+
+
+
+## Distribution Issues
+(Group Discussion)
+
+
 Issues:
 
-## Issues: Remote Support
+## Remote Support
+
+  How do we provide it?
 
   - too complex for novices
   - remote access, past firewall/NAT
-  - end-user alterations
+  - end-user changes complicate support
+  - OS security updates
 
 
 
 Issues:
 
-## Distributing Licensed Software
+## Licensed Software
 
   - Oracle
   - Java Development Kit
@@ -82,23 +211,32 @@ Issues:
 
 ## Security
 
-  - Oracle user accounts w/ passwords
-    - should only clone data tables
-      - how?
+  - Oracle user accounts include passwords
+  - apicomm has user search history, contact info and passwords
   - leakage of sensitive system details
     - deployed by Puppet, user shell history after setup
-      - careful refactoring of Puppet manifests
-      - dedicated user account for build on removable disk
+
+Note:
+how to clone only data:
+need careful refactoring of Puppet manifests
+need dedicated user account for build on removable disk
+
+
+
+### Needed Infrastructure Improvements
+(Group Discussion)
 
 
 
 Needed Infrastructure Improvements:
 
-## API to schema requirements
+## API for schema requirements
+
+  What are the minimum schema/tables required?
 
   - avoid private user schemas
   - keep up with application changes through releases
-  - e.g. GUS core.info
+  - e.g. GUS `core.info`
     - core.info does not include tuning tables
     - apicomm has no equivalent
 
@@ -106,9 +244,24 @@ Needed Infrastructure Improvements:
 
 Needed Infrastructure Improvements:
 
+### Remove user data from apicomm
+
+  - Make empty apicomm on the VM?
+    - loss of example strategies
+    - loss of community uploaded files
+    - are apicomm schema installation scripts up to date?
+  - Clone subset of production apicomm, excluding community profile data?
+
+
+
+Needed Infrastructure Improvements:
+
 ## Lock tuning tables
 
-  - block tM when exporting, block export when tuning
+  Live import fails when tuningManger is running
+
+  - block tM when exporting
+  - block export when tuning
 
 
 
@@ -124,5 +277,3 @@ Needed Infrastructure Improvements:
   - Jenkins integration builds
   - migrate from VMWare to VirtualBox
   - snapshot all sites every release?
-
-
