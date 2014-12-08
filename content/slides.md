@@ -1,4 +1,4 @@
-**EuPathDB Website Virtual Machines**
+**Project Support of Virtual Machine Production**
 
 December 2014
 
@@ -34,11 +34,11 @@ everything
 
   - Give overview of the labor costs of generating VMs
   - Discuss how to reduce those costs
-  - Highlight concerns: security, user support, legal
+  - Address concerns: security, user support, legal
 
 
 
-## Questions
+## Frequently Asked Questions
 
   - Why does it take a week to make a VM?
   - Can it be done in less time?
@@ -55,15 +55,16 @@ everything
 
 <span style="color:blue; font-size:75%">( 0-5 maturity)[+ core infra, - saVM specific]</span>
 
-  - KVM                                         <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
+  - KVM + libvirt                               <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
   - dedicated laptop and custom UI              <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3)[-]</span>
+  - VMWare                                      <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
   - Puppet                                      <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3.5)[+]</span>
   - self-configuring Apache hosts               <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
   - Tomcat Instance Manager                     <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
     - <span class='small-bullet-link'>[https://github.com/EuPathDB/tomcat-instance-framework](https://github.com/EuPathDB/tomcat-instance-framework)</span>
-  - GUS build <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
+  - GUS build <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(4)[+]</span>
   - rebuilder <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
-  - configula - automated WDK configuration <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(3)[+]</span>
+  - configula - automated WDK configuration <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(4)[+]</span>
   - /dashboard <!-- .element: class="fragment" --> <span style="color:blue; font-size:75%">(5)[+]</span>
 
 Note:
@@ -81,7 +82,7 @@ VM Contruction Overview
 
 ## Create VM template
 
-  - Kickstart bootstrap
+  - bootstrap with Kickstart
   - Puppet deployment of core software, configuration
   - manual QA, tweaks
 
@@ -104,7 +105,7 @@ VM Contruction Overview
 
   - export production database to a file
   - on VM: NFS mount the production export directory
-  - create database
+  - create empty database
   - import the export file
   - repeat for apicomm
 
@@ -116,6 +117,7 @@ VM Contruction Overview
 
   - checkout source code
   - build
+  - configure
 
 
 
@@ -141,7 +143,15 @@ VM Contruction Overview
 
 
 
-## QA the website
+## Convert to VMWare format
+
+
+
+## QA
+
+  - review kvm original
+  - download vmware to laptop
+  - review again
 
 
 
@@ -150,8 +160,8 @@ VM Contruction Overview
   - labor intensive
   - disruptive to other project tasks
   - long lead time required
-  - 3-6 months between assemblies
-    - what is now broken, out of date?
+  - 6 or more months between assemblies
+    - what has changed?
 
 
 
@@ -169,6 +179,14 @@ VM Contruction Overview
     - WDK configuration
   - import directly from live production DB
     - no tuningManager
+
+
+
+## Future
+  - full pipeline build
+  - Jenkins integration builds
+  - migrate from VMWare to VirtualBox
+  - snapshot all sites every release?
 
 
 
@@ -211,7 +229,7 @@ Note:
 
 Issues:
 
-## Security
+## Sensitive Data
 
   - Oracle user accounts include passwords
   - apicomm has user search history, contact info and passwords
@@ -274,8 +292,3 @@ Needed Infrastructure Improvements:
 
 
 
-## Future
-  - full pipeline build
-  - Jenkins integration builds
-  - migrate from VMWare to VirtualBox
-  - snapshot all sites every release?
