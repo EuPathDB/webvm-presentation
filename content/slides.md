@@ -1,4 +1,4 @@
-**EuPathDB Website VM Appliances**
+**EuPathDB Website Virtual Machines**
 
 December 2014
 
@@ -109,6 +109,7 @@ VM Contruction Overview
   - repeat for apicomm
 
 
+
 VM Contruction Overview
 
 ## Install Website
@@ -173,6 +174,7 @@ VM Contruction Overview
 
 ## Distribution Issues
 (Group Discussion)
+
 
 
 Issues:
