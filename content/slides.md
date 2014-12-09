@@ -299,8 +299,10 @@ Needed Infrastructure Improvements:
 ## Conclusions, Action Items
 
 - VMs will use empty apicomm instance, no importing data from production
-  - need creation script
-- All schema names needed to support the website will be registered in core.databaseinfo
+  - VMs will not have pre-loaded example strategies
+  - VMs will not have pre-registered users
+  - infrastructure team will provide schema installation script
+- All schema names needed to support the website will be registered in core.databaseinfo so the databases can be programmatically cloned and staff schema, workflow schema can be excluded.
   - e.g. tuningManager needs to be patched to do this
 - infrastructure will not support runtime flags to aid preventing conflicts between tuningManager and export scripts.
   - blocking tuningManager will have to be done in Jenkins.
