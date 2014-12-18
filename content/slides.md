@@ -296,9 +296,10 @@ Needed Infrastructure Improvements:
 
 <section id="conclusions">
 
-## Conclusions, Action Items
+### Conclusions, Action Items
 
-- VMs will use empty apicomm instance, no importing data from production
+- ~~VMs will use empty apicomm instance, no importing data from production~~
+- (12/18/14 update) VMs will use a mostly empty apicomm instance, only user comments will be imported
   - VMs will not have pre-loaded example strategies
   - VMs will not have pre-registered users
   - infrastructure team will provide schema installation script
@@ -306,4 +307,3 @@ Needed Infrastructure Improvements:
   - e.g. tuningManager needs to be patched to do this
 - infrastructure will not support runtime flags to aid preventing conflicts between tuningManager and export scripts.
   - blocking tuningManager will have to be done in Jenkins.
-  - alternatively, follow up with John I. about using existing current_updater from apidb.instancemetainfo.
