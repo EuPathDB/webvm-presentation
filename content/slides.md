@@ -307,3 +307,16 @@ Needed Infrastructure Improvements:
   - e.g. tuningManager needs to be patched to do this
 - infrastructure will not support runtime flags to aid preventing conflicts between tuningManager and export scripts.
   - blocking tuningManager will have to be done in Jenkins.
+
+
+
+### Feedback from David R.
+
+22 December 2014 phone conversation.
+
+  - retaining Community strategies is desired if can be done low cost.
+    - often used at workshops
+  - ability to transfer strategies from VM to production
+    - a nicety, not critical
+  
+  
